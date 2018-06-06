@@ -13,3 +13,5 @@
 4、php xxe test
 
 5、使用hackhttp 发送get 请求
+
+6、hackhttp 发送burp raw 数据示例
