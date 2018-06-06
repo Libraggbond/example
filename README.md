@@ -11,3 +11,5 @@
 3、H3C IMC 密码解密
 
 4、php xxe test
+
+5、使用hackhttp 发送get 请求
