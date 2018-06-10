@@ -14,7 +14,7 @@ def init(urls):
 
 		try:
 
-			code, head, html, redirect_url, log = hh.http(url)
+			code, head, html, redirect_url, log = hh.http(url,headers=headers_dict)
 
 			hashtext = {"url":url,"hash":hashlib.sha256(html).hexdigest(),"time":time.strftime('%Y-%m-%d-%H:%M:%S',time.localtime(time.time()))}
 		
@@ -36,7 +36,7 @@ def update(urls):
 
 		try:
 
-			code, head, html, redirect_url, log = hh.http(url)
+			code, head, html, redirect_url, log = hh.http(url,headers=headers_dict)
 
 			hashtext = {"url":url,"hash":hashlib.sha256(html).hexdigest(),"time":time.strftime('%Y-%m-%d-%H:%M:%S',time.localtime(time.time()))}
 			
@@ -58,7 +58,7 @@ def check(urls):
 
 		try:
 
-			code, head, html, redirect_url, log = hh.http(url)
+			code, head, html, redirect_url, log = hh.http(url,headers=headers_dict)
 
 			rs = hashs.find_one({"hash":hashlib.sha256(html).hexdigest()})
 
@@ -93,6 +93,8 @@ if __name__ == '__main__':
 	urls = ["http://qepb.qingdao.gov.cn/n28356059/index.html","http://120.221.95.83/m2/index.aspx","http://219.147.6.195:8402/kqfb","http://219.147.6.195:8402/newhb/Login.aspx","http://219.147.6.195:8403","http://219.147.6.195:8403/login.aspx"]
 
 	hh =  hackhttp.hackhttp()
+
+	headers_dict = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:37.0) Gecko/20100101 Firefox/37.0"}
 
 	if action == "update":
 
