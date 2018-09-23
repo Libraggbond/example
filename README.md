@@ -17,3 +17,5 @@
 6、hackhttp 发送burp raw 数据示例
 
 7、mongodb usage
+
+8、盲注二分查找法
