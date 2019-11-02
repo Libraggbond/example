@@ -1,0 +1,35 @@
+var request = window.indexedDB.open("_ionicstorage");
+request.onsuccess = function(e){
+    //console.log(1);
+    var db  = request.result;
+    console.log("Success");
+    function read() {
+   var transaction = db.transaction(['_ionickv']);
+   var objectStore = transaction.objectStore('_ionickv');
+   var request = objectStore.get("CXuserInfo");
+   request.onerror = function(event) {
+     console.log('事务失败');
+   };
+   request.onsuccess = function( event) {
+      if (request.result) {
+        console.log(request.result);
+      } else {
+        console.log('未获得数据记录');
+      }
+   };
+}
+function changeData() {
+  var transaction = db.transaction(['_ionickv'], 'readwrite');//readwrite表示有读写权限
+    var objectStore = transaction.objectStore('_ionickv');
+ 
+    objectSoreResult = objectStore.put({userID:'1',copID:'2',openID:'1'},"CXuserInfo"); //更新数据,key在后，value在前，好大一个坑
+  objectSoreResult.onsuccess = function (event) {
+    console.log('数据写入成功');
+  };
+  objectSoreResult.onerror = function (event) {
+    console.log('数据写入失败');
+  }
+}
+changeData();
+read();
+}
